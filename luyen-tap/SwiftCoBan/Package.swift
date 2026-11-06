@@ -24,6 +24,9 @@ let package = Package(
         .testTarget(
             name: "SwiftCoBanTests",
             dependencies: ["SwiftCoBan"],
+            resources: [
+                .process("Resources")
+            ],
             swiftSettings: [
                 .enableUpcomingFeature("ApproachableConcurrency"),
             ],
