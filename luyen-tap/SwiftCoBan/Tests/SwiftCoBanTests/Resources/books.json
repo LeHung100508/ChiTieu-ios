@@ -1,0 +1,16 @@
+[
+  {
+    "book_id": "B01",
+    "book_title": "Swift 6 Mastery",
+    "published_year": 2026
+  },
+  {
+    "book_id": "B02",
+    "book_title": "SwiftUI in Depth",
+    "published_year": null
+  },
+  {
+    "book_id": "B03",
+    "book_title": "Clean Architecture on iOS"
+  }
+]
