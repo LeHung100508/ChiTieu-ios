@@ -7,13 +7,31 @@
 
 import SwiftUI
 
+class SampleObject {
+    var onAction: (() -> Void)?
+    var name = "Sample Object"
+    
+    func doAction() {
+        onAction = { [weak self] in
+            guard let self else { return }
+            print(self.name)
+        }
+    }
+}
+
 struct ContentView: View {
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
             Text("Hello, world!")
+            
+            Button("Click") {
+                let obj = SampleObject()
+                obj.doAction()
+            }
+            .buttonStyle(.borderedProminent)
         }
         .padding()
     }
