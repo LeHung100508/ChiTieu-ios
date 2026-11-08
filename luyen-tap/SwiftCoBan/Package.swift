@@ -23,6 +23,7 @@ let package = Package(
             name: "SwiftCoBan",
             swiftSettings: [
                 .enableUpcomingFeature("ApproachableConcurrency"),
+                .swiftLanguageMode(.v6)
             ],
         ),
         .testTarget(
@@ -33,6 +34,7 @@ let package = Package(
             ],
             swiftSettings: [
                 .enableUpcomingFeature("ApproachableConcurrency"),
+                .swiftLanguageMode(.v6)
             ],
         ),
     ]
