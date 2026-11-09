@@ -7,6 +7,7 @@ struct BookItem: Identifiable {
     var title: String
     var author: String
     var isRead: Bool
+    var note: String = ""
 }
 
 extension BookItem {

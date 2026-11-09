@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var books: [BookItem] = BookItem.samples
+    @State private var store = BookStore()
     var body: some View {
         NavigationStack {
-            BookListView(books: $books).navigationTitle("Sách đang đọc")
+            BookListView(store: store).navigationTitle("Sách đang đọc")
         }
     }
 }
