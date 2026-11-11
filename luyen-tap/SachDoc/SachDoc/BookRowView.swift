@@ -10,28 +10,28 @@ import SwiftUI
 struct BookRowView: View {
     @Binding var book: BookItem
     var body: some View {
-            HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(book.title).font(.headline)
-                    Text(book.author).font(.subheadline).foregroundStyle(.secondary)
-                }
-                Spacer()
-                Text(book.isRead ? "Đã đọc" : "Chưa đọc")
-                    .font(.caption2.bold())
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(book.isRead ? Color.green : Color.gray)
-                    .clipShape(Capsule())
-                Spacer()
-                Button {
-                    book.isRead.toggle()
-                } label: {
-                    Image(systemName: book.isRead ? "checkmark.circle.fill" : "circle")
-                        .font(.title2)
-                        .foregroundStyle(book.isRead ? .green : .gray)
-                }.buttonStyle(.borderless)
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(book.title).font(.headline)
+                Text(book.author).font(.subheadline).foregroundStyle(.secondary)
             }
+            Spacer()
+            Text(book.isRead ? "Đã đọc" : "Chưa đọc")
+                .font(.caption2.bold())
+                .foregroundStyle(.white)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(book.isRead ? Color.green : Color.gray)
+                .clipShape(Capsule())
+            Spacer()
+            Button {
+                book.isRead.toggle()
+            } label: {
+                Image(systemName: book.isRead ? "checkmark.circle.fill" : "circle")
+                    .font(.title2)
+                    .foregroundStyle(book.isRead ? .green : .gray)
+            }.buttonStyle(.borderless)
+        }
     }
 }
 
