@@ -30,7 +30,6 @@ struct BookDetailView: View {
                             )
                             .clipShape(Capsule())
                     }
-                        
                     Divider()
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Ghi chú")
