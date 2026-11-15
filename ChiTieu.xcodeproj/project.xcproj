@@ -10,8 +10,18 @@
       "Base",
     ],
   },
+  "packages": [
+    {
+      "kind": "local",
+      "path": "Core",
+    }, {
+      "kind": "local",
+      "path": "Features",
+    },
+  ],
   "files": [
     { "kind": "folder", "path": "ChiTieu", "target-membership": [ "ChiTieu" ] },
+    { "kind": "group", "name": "Frameworks" },
     {
       "kind": "group",
       "name": "Products",
@@ -30,6 +40,33 @@
         "compile-sources",
         "frameworks",
         "resources",
+      ],
+      "package-product-members": [
+        {
+          "package": "Features",
+          "product-name": "Budget",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "Features",
+          "product-name": "Onboarding",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "Features",
+          "product-name": "QuickAdd",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "Features",
+          "product-name": "Settings",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "Features",
+          "product-name": "Stats",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "Features",
+          "product-name": "Transactions",
+          "build-phase": { "build-phase": "frameworks" },
+        },
       ],
       "build-settings": {
         "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
