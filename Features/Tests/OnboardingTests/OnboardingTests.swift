@@ -6,10 +6,11 @@
 //
 
 import Testing
+
 @testable import Onboarding
 
 @MainActor
 @Test func testOnboardingInit() {
-    let _ = OnboardingView()
+    _ = OnboardingView()
     #expect(true)
 }

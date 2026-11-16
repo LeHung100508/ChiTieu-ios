@@ -30,7 +30,7 @@ let package = Package(
     name: "Features",
     platforms: [
         .iOS("26.0"),
-        .macOS(.v26)
+        .macOS(.v26),
     ],
     products: [
         .library(name: "QuickAdd", targets: ["QuickAdd"]),
@@ -49,7 +49,7 @@ let package = Package(
             name: "QuickAdd",
             dependencies: [
                 .product(name: "Model", package: "Core"),
-                .product(name: "DesignSystem", package: "Core")
+                .product(name: "DesignSystem", package: "Core"),
             ],
             swiftSettings: [.defaultIsolation(MainActor.self)]
         ),
@@ -60,7 +60,7 @@ let package = Package(
             name: "Transactions",
             dependencies: [
                 .product(name: "Model", package: "Core"),
-                .product(name: "DesignSystem", package: "Core")
+                .product(name: "DesignSystem", package: "Core"),
             ],
             swiftSettings: [.defaultIsolation(MainActor.self)]
         ),
@@ -71,7 +71,7 @@ let package = Package(
             name: "Budget",
             dependencies: [
                 .product(name: "Model", package: "Core"),
-                .product(name: "DesignSystem", package: "Core")
+                .product(name: "DesignSystem", package: "Core"),
             ],
             swiftSettings: [.defaultIsolation(MainActor.self)]
         ),
@@ -82,7 +82,7 @@ let package = Package(
             name: "Stats",
             dependencies: [
                 .product(name: "Model", package: "Core"),
-                .product(name: "DesignSystem", package: "Core")
+                .product(name: "DesignSystem", package: "Core"),
             ],
             swiftSettings: [.defaultIsolation(MainActor.self)]
         ),
@@ -93,7 +93,7 @@ let package = Package(
             name: "Settings",
             dependencies: [
                 .product(name: "Model", package: "Core"),
-                .product(name: "DesignSystem", package: "Core")
+                .product(name: "DesignSystem", package: "Core"),
             ],
             swiftSettings: [.defaultIsolation(MainActor.self)]
         ),
@@ -104,7 +104,7 @@ let package = Package(
             name: "Onboarding",
             dependencies: [
                 .product(name: "Model", package: "Core"),
-                .product(name: "DesignSystem", package: "Core")
+                .product(name: "DesignSystem", package: "Core"),
             ],
             swiftSettings: [.defaultIsolation(MainActor.self)]
         ),

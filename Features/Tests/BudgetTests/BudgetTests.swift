@@ -6,10 +6,11 @@
 //
 
 import Testing
+
 @testable import Budget
 
 @MainActor
 @Test func testBudgetInit() {
-    let _ = BudgetView()
+    _ = BudgetView()
     #expect(true)
 }

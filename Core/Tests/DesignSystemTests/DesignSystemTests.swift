@@ -6,6 +6,7 @@
 //
 
 import Testing
+
 @testable import DesignSystem
 
 @Test func testDesignSystemInit() {

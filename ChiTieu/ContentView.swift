@@ -5,13 +5,13 @@
 //  Created by Le Hung on 14/11/26.
 //
 
-import SwiftUI
-import QuickAdd
-import Transactions
 import Budget
-import Stats
-import Settings
 import Onboarding
+import QuickAdd
+import Settings
+import Stats
+import SwiftUI
+import Transactions
 
 struct ContentView: View {
     @State private var showingSettings = false

@@ -1,0 +1,31 @@
+# ==============================================================================
+# LỆNH LINT CHUẨN CỦA REPO:
+# 1. swift format lint --recursive --strict ChiTieu Core Features
+# 2. swiftlint lint --strict
+#
+# CÁCH CÀI ĐẶT CỐ ĐỊNH PHIÊN BẢN (Cho CI runner ở iS0-04):
+# curl -sSL https://github.com/realm/SwiftLint/releases/download/0.65.1/portable_swiftlint.zip -o swiftlint.zip
+# unzip -q swiftlint.zip -d /tmp/swiftlint && sudo mv /tmp/swiftlint/swiftlint /usr/local/bin/
+# ==============================================================================
+
+swiftlint_version: 0.65.1
+
+included:
+  - ChiTieu
+  - Core
+  - Features
+
+excluded:
+  - "**/DerivedData"
+  - "**/.build"
+  - "docs"
+  - "luyen-tap"
+
+disabled_rules:
+  - trailing_comma       # Giao cho swift-format quản lý
+  - line_length          # Giao cho swift-format quản lý
+  - trailing_whitespace  # Giao cho swift-format quản lý
+
+opt_in_rules:
+  - force_unwrapping     # Chặn force unwrap (!) để an toàn tuyệt đối
+  - empty_count          # Dùng isEmpty thay vì count == 0
