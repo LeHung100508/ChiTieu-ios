@@ -6,10 +6,11 @@
 //
 
 import Testing
+
 @testable import Transactions
 
 @MainActor
 @Test func testTransactionsInit() {
-    let _ = TransactionsView()
+    _ = TransactionsView()
     #expect(true)
 }

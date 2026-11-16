@@ -6,10 +6,11 @@
 //
 
 import Testing
+
 @testable import Stats
 
 @MainActor
 @Test func testStatsInit() {
-    let _ = StatsView()
+    _ = StatsView()
     #expect(true)
 }

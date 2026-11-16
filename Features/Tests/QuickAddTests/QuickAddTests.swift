@@ -6,10 +6,11 @@
 //
 
 import Testing
+
 @testable import QuickAdd
 
 @MainActor
 @Test func testQuickAddInit() {
-    let _ = QuickAddView()
+    _ = QuickAddView()
     #expect(true)
 }

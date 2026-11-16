@@ -5,16 +5,15 @@
 //  Created by Le Hung on 14/11/26.
 //
 
-import Model
 import DesignSystem
-
+import Model
 import SwiftUI
 
 public struct OnboardingView: View {
     @Environment(\.dismiss) private var dismiss
-    
+
     public init() {}
-    
+
     public var body: some View {
         VStack(spacing: 20) {
             Text("OnboardingView")
@@ -23,5 +22,5 @@ public struct OnboardingView: View {
             }
         }
     }
-    
+
 }

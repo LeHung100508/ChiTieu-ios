@@ -36,14 +36,13 @@
 // ==============================================================================
 //
 
-
 import PackageDescription
 
 let package = Package(
     name: "Core",
     platforms: [
         .iOS("26.0"),
-        .macOS(.v26)
+        .macOS(.v26),
     ],
     products: [
         .library(name: "Model", targets: ["Model"]),
@@ -55,16 +54,16 @@ let package = Package(
     targets: [
         .target(name: "Model"),
         .testTarget(name: "ModelTests", dependencies: ["Model"]),
-        
+
         .target(name: "Parser", dependencies: ["Model"]),
         .testTarget(name: "ParserTests", dependencies: ["Parser"]),
-        
+
         .target(name: "Data", dependencies: ["Model"]),
         .testTarget(name: "DataTests", dependencies: ["Data"]),
-        
+
         .target(name: "DesignSystem", dependencies: ["Model"], swiftSettings: [.defaultIsolation(MainActor.self)]),
         .testTarget(name: "DesignSystemTests", dependencies: ["DesignSystem"]),
-        
+
         .target(name: "CoreTesting", dependencies: ["Model"]),
         .testTarget(name: "CoreTestingTests", dependencies: ["CoreTesting"]),
     ]

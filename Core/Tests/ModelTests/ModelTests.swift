@@ -6,6 +6,7 @@
 //
 
 import Testing
+
 @testable import Model
 
 @Test func testModelInit() {

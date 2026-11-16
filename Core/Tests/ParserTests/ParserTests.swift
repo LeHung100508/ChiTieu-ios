@@ -6,6 +6,7 @@
 //
 
 import Testing
+
 @testable import Parser
 
 @Test func testParserInit() {
