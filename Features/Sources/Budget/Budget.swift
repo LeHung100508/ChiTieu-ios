@@ -9,6 +9,7 @@ import DesignSystem
 import Model
 import SwiftUI
 
+@MainActor
 public struct BudgetView: View {
     public init() {}
 

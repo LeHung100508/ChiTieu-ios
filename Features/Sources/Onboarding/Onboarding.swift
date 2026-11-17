@@ -9,6 +9,7 @@ import DesignSystem
 import Model
 import SwiftUI
 
+@MainActor
 public struct OnboardingView: View {
     @Environment(\.dismiss) private var dismiss
 

@@ -42,7 +42,7 @@ let package = Package(
     name: "Core",
     platforms: [
         .iOS("26.0"),
-        .macOS(.v26),
+        .macOS(.v15),
     ],
     products: [
         .library(name: "Model", targets: ["Model"]),
@@ -61,7 +61,7 @@ let package = Package(
         .target(name: "Data", dependencies: ["Model"]),
         .testTarget(name: "DataTests", dependencies: ["Data"]),
 
-        .target(name: "DesignSystem", dependencies: ["Model"], swiftSettings: [.defaultIsolation(MainActor.self)]),
+        .target(name: "DesignSystem", dependencies: ["Model"]),
         .testTarget(name: "DesignSystemTests", dependencies: ["DesignSystem"]),
 
         .target(name: "CoreTesting", dependencies: ["Model"]),

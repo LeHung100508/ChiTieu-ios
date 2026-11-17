@@ -1,4 +1,4 @@
-// swift-tools-version: 6.2
+// swift-tools-version: 6.0
 //
 // ==============================================================================
 // LUẬT PHỤ THUỘC (ARCHITECTURE RULES) - PACKAGE FEATURES
@@ -51,7 +51,6 @@ let package = Package(
                 .product(name: "Model", package: "Core"),
                 .product(name: "DesignSystem", package: "Core"),
             ],
-            swiftSettings: [.defaultIsolation(MainActor.self)]
         ),
         .testTarget(name: "QuickAddTests", dependencies: ["QuickAdd"]),
 
@@ -62,7 +61,6 @@ let package = Package(
                 .product(name: "Model", package: "Core"),
                 .product(name: "DesignSystem", package: "Core"),
             ],
-            swiftSettings: [.defaultIsolation(MainActor.self)]
         ),
         .testTarget(name: "TransactionsTests", dependencies: ["Transactions"]),
 
@@ -73,7 +71,6 @@ let package = Package(
                 .product(name: "Model", package: "Core"),
                 .product(name: "DesignSystem", package: "Core"),
             ],
-            swiftSettings: [.defaultIsolation(MainActor.self)]
         ),
         .testTarget(name: "BudgetTests", dependencies: ["Budget"]),
 
@@ -84,7 +81,6 @@ let package = Package(
                 .product(name: "Model", package: "Core"),
                 .product(name: "DesignSystem", package: "Core"),
             ],
-            swiftSettings: [.defaultIsolation(MainActor.self)]
         ),
         .testTarget(name: "StatsTests", dependencies: ["Stats"]),
 
@@ -95,7 +91,6 @@ let package = Package(
                 .product(name: "Model", package: "Core"),
                 .product(name: "DesignSystem", package: "Core"),
             ],
-            swiftSettings: [.defaultIsolation(MainActor.self)]
         ),
         .testTarget(name: "SettingsTests", dependencies: ["Settings"]),
 
@@ -106,7 +101,6 @@ let package = Package(
                 .product(name: "Model", package: "Core"),
                 .product(name: "DesignSystem", package: "Core"),
             ],
-            swiftSettings: [.defaultIsolation(MainActor.self)]
         ),
         .testTarget(name: "OnboardingTests", dependencies: ["Onboarding"]),
     ]
