@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Build, Lint & Test
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout code (with submodules)
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Install SwiftLint 0.65.1
+        run: |
+          curl -sSL https://github.com/realm/SwiftLint/releases/download/0.65.1/portable_swiftlint.zip -o /tmp/swiftlint.zip
+          unzip -q /tmp/swiftlint.zip -d /tmp/swiftlint
+          sudo mv /tmp/swiftlint/swiftlint /usr/local/bin/
+          swiftlint version
+
+      - name: Run swift-format Lint
+        run: swift format lint --recursive --strict ChiTieu Core Features
+
+      - name: Run SwiftLint
+        run: swiftlint lint --strict
+
+      - name: Run Core Tests
+        run: swift test --package-path Core
+
+      - name: Run Features Tests
+        run: swift test --package-path Features
+
+      - name: Build App Target
+        run: |
+          xcodebuild -project ChiTieu.xcodeproj \
+                     -scheme ChiTieu \
+                     -destination "generic/platform=iOS Simulator" \
+                     build
