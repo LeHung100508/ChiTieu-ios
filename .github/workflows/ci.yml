@@ -20,8 +20,9 @@ jobs:
         run: |
           xcodebuild -version
           swift --version
+          
       - name: Checkout code (with submodules)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: true
 
@@ -39,10 +40,25 @@ jobs:
         run: swiftlint lint --strict
 
       - name: Run Core Tests
-        run: swift test --package-path Core
+        run: swift test --package-path Core --enable-code-coverage
 
       - name: Run Features Tests
-        run: swift test --package-path Features
+        run: swift test --package-path Features --enable-code-coverage
+
+      - name: Report Coverage
+        run: |
+          {
+            echo "### Test Coverage"
+            echo "| Package | Lines |"
+            echo "| --- | --- |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          for pkg in Core Features; do
+            COV_PATH=$(swift test --package-path "$pkg" --show-codecov-path)
+            STATS=$(jq -r '.data[0].totals.lines | "\(.covered)/\(.count) (\((.percent * 100 | round) / 100)%)"' "$COV_PATH")
+            echo "$pkg coverage: $STATS"
+            echo "| $pkg | $STATS |" >> "$GITHUB_STEP_SUMMARY"
+          done
 
       - name: Build App Target
         run: |
