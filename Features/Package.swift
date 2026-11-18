@@ -30,7 +30,7 @@ let package = Package(
     name: "Features",
     platforms: [
         .iOS("26.0"),
-        .macOS(.v26),
+        .macOS(.v15),
     ],
     products: [
         .library(name: "QuickAdd", targets: ["QuickAdd"]),
