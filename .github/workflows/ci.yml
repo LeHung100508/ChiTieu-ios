@@ -13,9 +13,13 @@ concurrency:
 jobs:
   ci:
     name: Build, Lint & Test
-    runs-on: macos-15
+    runs-on: xcode-27
 
     steps:
+      - name: Check Toolchain Versions
+        run: |
+          xcodebuild -version
+          swift --version
       - name: Checkout code (with submodules)
         uses: actions/checkout@v4
         with:

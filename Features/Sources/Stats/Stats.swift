@@ -9,7 +9,6 @@ import DesignSystem
 import Model
 import SwiftUI
 
-@MainActor
 public struct StatsView: View {
     public init() {}
     public var body: some View {

@@ -1,4 +1,4 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.2
 
 // ==============================================================================
 // BẢNG THIẾT KẾ VÀ LUẬT PHỤ THUỘC (ARCHITECTURE DEPENDENCY RULES)
@@ -42,7 +42,7 @@ let package = Package(
     name: "Core",
     platforms: [
         .iOS("26.0"),
-        .macOS(.v15),
+        .macOS(.v26),
     ],
     products: [
         .library(name: "Model", targets: ["Model"]),
@@ -61,7 +61,7 @@ let package = Package(
         .target(name: "Data", dependencies: ["Model"]),
         .testTarget(name: "DataTests", dependencies: ["Data"]),
 
-        .target(name: "DesignSystem", dependencies: ["Model"]),
+        .target(name: "DesignSystem", dependencies: ["Model"], swiftSettings: [.defaultIsolation(MainActor.self)]),
         .testTarget(name: "DesignSystemTests", dependencies: ["DesignSystem"]),
 
         .target(name: "CoreTesting", dependencies: ["Model"]),

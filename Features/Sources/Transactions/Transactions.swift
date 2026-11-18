@@ -9,7 +9,6 @@ import DesignSystem
 import Model
 import SwiftUI
 
-@MainActor
 public struct TransactionsView: View {
     public init() {}
     public var body: some View {
