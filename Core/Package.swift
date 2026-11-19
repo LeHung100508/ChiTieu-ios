@@ -61,7 +61,12 @@ let package = Package(
         .target(name: "Data", dependencies: ["Model"]),
         .testTarget(name: "DataTests", dependencies: ["Data"]),
 
-        .target(name: "DesignSystem", dependencies: ["Model"], swiftSettings: [.defaultIsolation(MainActor.self)]),
+        .target(
+            name: "DesignSystem",
+            dependencies: ["Model"],
+            resources: [.process("Resources")],
+            swiftSettings: [.defaultIsolation(MainActor.self)]
+        ),
         .testTarget(name: "DesignSystemTests", dependencies: ["DesignSystem"]),
 
         .target(name: "CoreTesting", dependencies: ["Model"]),
