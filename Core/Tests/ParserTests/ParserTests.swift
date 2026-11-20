@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ParserTests.swift
 //  Core
 //
 //  Created by Le Hung on 14/11/26.
@@ -51,12 +51,22 @@ func testParameterizedAllCases(testCase: TestCase) async throws {
     let suite = try TestSuiteLoader.loadTestSuite()
     let parser = TransactionParser()
 
-    withKnownIssue("Giải thuật parser đang được phát triển theo TDD (iS0-08 đến iS0-11)", isIntermittent: true) {
-        let results = parser.parse(
-            testCase.input,
-            referenceTime: suite.referenceTime,
-            timeZone: suite.parsedTimeZone
-        )
-        #expect(results.count == testCase.expected.count)
+    let results = parser.parse(
+        testCase.input,
+        referenceTime: suite.referenceTime,
+        timeZone: suite.parsedTimeZone
+    )
+
+    // Khẳng định 100% về số lượng giao dịch và số tiền (FR-02)
+    #expect(results.count == testCase.expected.count)
+    #expect(results.compactMap(\.amount?.value.amount) == testCase.expected.map(\.amount))
+
+    // Các trường thời gian (iS0-10), danh mục và tách khoản (iS0-11)
+    withKnownIssue("Danh mục, thời gian và ví đang phát triển theo TDD (iS0-10 đến iS0-11)", isIntermittent: true) {
+        for (actual, expected) in zip(results, testCase.expected) {
+            #expect(actual.type == expected.type)
+            #expect(actual.categoryKey?.value == expected.categoryKey)
+            #expect(actual.note?.value == expected.note)
+        }
     }
 }
