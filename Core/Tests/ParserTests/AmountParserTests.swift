@@ -157,6 +157,7 @@ struct AmountParserTests {
         ("9999999999999999k", []),
         ("99999999999999999999", []),
         ("mua 2 cốc trà sữa 60k ở 123 Lê Lợi", [60_000]),
+        ("15/10/2025 mua vé 200k", [200_000]),
     ]
 
     @Test("Câu ngoài bộ mẫu: ký hiệu tiền tệ, số lượng, phần lẻ, tràn số", arguments: outOfSampleCases)
