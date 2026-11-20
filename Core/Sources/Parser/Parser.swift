@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Parser.swift
 //  Core
 //
 //  Created by Le Hung on 14/11/26.
@@ -18,7 +18,25 @@ public struct TransactionParser: Sendable {
         referenceTime: Date = Date(),
         timeZone: TimeZone = TimeZone(identifier: "Asia/Ho_Chi_Minh") ?? .current
     ) -> [ParsedTransaction] {
-        // Ở iS0-07, tạm thời trả về rỗng vì giải thuật sẽ được cài đặt từ iS0-08 đến iS0-11
-        []
+        let sentence = Tokenizer.tokenize(input)
+        let amounts = AmountParser.parse(sentence: sentence)
+
+        guard !amounts.isEmpty else {
+            return []
+        }
+
+        return amounts.map { parsedAmount in
+            ParsedTransaction(
+                type: .expense,
+                amount: ParsedField(parsedAmount.value, confidence: parsedAmount.confidence),
+                categoryKey: nil,
+                // datetime tạm thời để nil cho tới iS0-10 (nhận diện thời gian)
+                datetime: nil,
+                wallet: nil,
+                sourceWallet: nil,
+                targetWallet: nil,
+                note: nil
+            )
+        }
     }
 }
