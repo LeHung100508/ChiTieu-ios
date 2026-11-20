@@ -25,13 +25,21 @@ public struct TransactionParser: Sendable {
             return []
         }
 
-        return amounts.map { parsedAmount in
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = timeZone
+        let dates = DateParser.resolve(
+            sentence: sentence,
+            amounts: amounts,
+            now: referenceTime,
+            calendar: calendar
+        )
+
+        return amounts.enumerated().map { index, parsedAmount in
             ParsedTransaction(
                 type: .expense,
                 amount: ParsedField(parsedAmount.value, confidence: parsedAmount.confidence),
                 categoryKey: nil,
-                // datetime tạm thời để nil cho tới iS0-10 (nhận diện thời gian)
-                datetime: nil,
+                datetime: dates[index],
                 wallet: nil,
                 sourceWallet: nil,
                 targetWallet: nil,

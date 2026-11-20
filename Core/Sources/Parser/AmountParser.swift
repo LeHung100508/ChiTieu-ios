@@ -122,8 +122,15 @@ public enum AmountParser {
         parse(sentence: Tokenizer.tokenize(raw))
     }
 
-    /// Số đứng ngay sau `ngày`/`mùng` là ngày trong tháng, không phải số tiền.
+    /// Số thuộc một cụm ngày, không phải số tiền: đứng sau `ngày`/`mùng`/`mồng` (`ngày 5`),
+    /// hoặc đứng cạnh `/` (`15/10/2027`: năm 2027 không phải 2.027 đồng).
     private static func isDateNumber(tokens: [Token], at index: Int) -> Bool {
-        index > 0 && ["ngay", "mung"].contains(tokens[index - 1].unaccented) && tokens[index].type == .number
+        guard tokens[index].type == .number else { return false }
+        let previous = index > 0 ? tokens[index - 1] : nil
+        let next = index + 1 < tokens.count ? tokens[index + 1] : nil
+        if let previous, ["ngay", "mung", "mong"].contains(previous.unaccented) || previous.text == "/" {
+            return true
+        }
+        return next?.text == "/"
     }
 }
