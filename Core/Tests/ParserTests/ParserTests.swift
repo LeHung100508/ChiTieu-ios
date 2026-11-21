@@ -49,16 +49,34 @@ import Testing
 @Test("Phân tích 200 câu mẫu", arguments: try TestSuiteLoader.loadTestSuite().testCases)
 func testParameterizedAllCases(testCase: TestCase) async throws {
     let suite = try TestSuiteLoader.loadTestSuite()
-    let parser = TransactionParser()
+    let dictionary = try CategoryDictionaryLoader.load()
+    let wallets = suite.mockWallets.map { WalletAlias(key: $0.key, aliases: $0.aliases) }
+    var calendar = Calendar(identifier: .gregorian)
+    calendar.timeZone = suite.parsedTimeZone
+    let config = ParserConfiguration(dictionary: dictionary, wallets: wallets, calendar: calendar)
 
+    let parser = TransactionParser(configuration: config)
     let results = parser.parse(
         testCase.input,
-        referenceTime: suite.referenceTime,
-        timeZone: suite.parsedTimeZone
+        referenceTime: suite.referenceTime
     )
 
-    // Khẳng định 100% về số lượng giao dịch, số tiền (FR-02) và thời gian (FR-03)
+    // Khẳng định 100% về số lượng giao dịch, số tiền và thời gian
     #expect(results.count == testCase.expected.count)
     #expect(results.compactMap(\.amount?.value.amount) == testCase.expected.map(\.amount))
     #expect(results.compactMap(\.datetime?.value) == testCase.expected.map(\.datetime))
+
+    // Khẳng định 100% loại, danh mục, ví và ghi chú
+    for (actual, expected) in zip(results, testCase.expected) {
+        #expect(actual.type == expected.type)
+        #expect(actual.categoryKey?.value == expected.categoryKey)
+        #expect(actual.wallet?.value == expected.wallet)
+        #expect(actual.sourceWallet?.value == expected.sourceWallet)
+        #expect(actual.targetWallet?.value == expected.targetWallet)
+        #expect(normalizedNote(actual.note?.value) == normalizedNote(expected.note))
+    }
+}
+
+private func normalizedNote(_ note: String?) -> String? {
+    note.map { $0.lowercased().split(whereSeparator: \.isWhitespace).joined(separator: " ") }
 }

@@ -62,6 +62,18 @@ public enum DateParser {
         return results
     }
 
+    /// Như `parse`, bỏ các cụm chồng lên token của khoản tiền (ví dụ `thu 2tr` không phải `thứ 2`).
+    static func parse(
+        sentence: NormalizedSentence,
+        now: Date,
+        calendar: Calendar,
+        excluding amounts: [ParsedAmount]
+    ) -> [ParsedDate] {
+        parse(sentence: sentence, now: now, calendar: calendar).filter { date in
+            !amounts.contains { overlaps(date, $0) }
+        }
+    }
+
     /// Gán thời gian cho từng khoản tiền (cùng thứ tự với `amounts`), theo luật lan ngữ cảnh:
     /// - Khoản có cụm thời gian riêng thì dùng cụm đó.
     /// - Cụm loại `.day` được lan sang các khoản sau chưa có thời gian riêng.
@@ -73,15 +85,16 @@ public enum DateParser {
         now: Date,
         calendar: Calendar
     ) -> [ParsedField<Date>] {
-        let dates = parse(sentence: sentence, now: now, calendar: calendar)
-            .filter { date in !amounts.contains { overlaps(date, $0) } }
-        let boundaries = clauseBoundaries(tokens: sentence.tokens, amounts: amounts)
+        let dates = parse(sentence: sentence, now: now, calendar: calendar, excluding: amounts)
+        let boundaries = ClauseSplitter.boundaries(tokens: sentence.tokens, amounts: amounts)
         let context = Context(tokens: sentence.tokens, now: now, calendar: calendar)
 
         var carried: ParsedDate?
         var result: [ParsedField<Date>] = []
         for clause in amounts.indices {
-            let own = dates.first { clauseIndex(ofToken: $0.tokenStartIndex, boundaries: boundaries) == clause }
+            let own = dates.first {
+                ClauseSplitter.clauseIndex(ofToken: $0.tokenStartIndex, boundaries: boundaries) == clause
+            }
             switch (own, carried) {
             case (.some(let own), _) where own.kind == .day:
                 carried = own
@@ -100,26 +113,7 @@ public enum DateParser {
         return result
     }
 
-    // MARK: - Ranh giới khoản
-
-    /// Ranh giới giữa khoản `k` và `k + 1`: token phân cách đầu tiên nằm giữa hai khoản tiền
-    /// (`,` `;` xuống dòng `và` `với`). Không có phân cách thì ranh giới là ngay sau khoản `k`.
-    static func clauseBoundaries(tokens: [Token], amounts: [ParsedAmount]) -> [Int] {
-        guard amounts.count > 1 else { return [] }
-        return (0..<(amounts.count - 1)).map { clause in
-            let start = amounts[clause].tokenEndIndex
-            let end = max(start, amounts[clause + 1].tokenStartIndex)
-            return (start..<end).first { isSeparator(tokens[$0]) } ?? start
-        }
-    }
-
-    static func clauseIndex(ofToken index: Int, boundaries: [Int]) -> Int {
-        boundaries.filter { index >= $0 }.count
-    }
-
-    static func isSeparator(_ token: Token) -> Bool {
-        token.type == .newline || [",", ";"].contains(token.text) || ["và", "với"].contains(token.text)
-    }
+    // MARK: - Tiện ích
 
     private static func overlaps(_ date: ParsedDate, _ amount: ParsedAmount) -> Bool {
         date.tokenStartIndex < amount.tokenEndIndex && amount.tokenStartIndex < date.tokenEndIndex

@@ -20,6 +20,7 @@
     },
   ],
   "files": [
+    { "path": "docs/shared/parser/category_keywords.json", "target-membership": [ "ChiTieu/resources" ] },
     { "kind": "folder", "path": "ChiTieu", "target-membership": [ "ChiTieu" ] },
     { "kind": "group", "name": "Frameworks" },
     {
@@ -43,6 +44,10 @@
       ],
       "package-product-members": [
         {
+          "package": "Core",
+          "product-name": "Parser",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
           "package": "Features",
           "product-name": "Budget",
           "build-phase": { "build-phase": "frameworks" },

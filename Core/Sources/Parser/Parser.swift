@@ -10,13 +10,16 @@ import Model
 
 /// Bộ phân tích ngôn ngữ tự nhiên bóc tách câu nhập liệu thành các giao dịch.
 public struct TransactionParser: Sendable {
-    public init() {}
+    public let configuration: ParserConfiguration
 
-    /// Phân tích câu nhập liệu dựa trên thời gian tham chiếu và múi giờ.
+    public init(configuration: ParserConfiguration) {
+        self.configuration = configuration
+    }
+
+    /// Phân tích câu nhập liệu dựa trên cấu hình và thời gian tham chiếu.
     public func parse(
         _ input: String,
-        referenceTime: Date = Date(),
-        timeZone: TimeZone = TimeZone(identifier: "Asia/Ho_Chi_Minh") ?? .current
+        referenceTime: Date = Date()
     ) -> [ParsedTransaction] {
         let sentence = Tokenizer.tokenize(input)
         let amounts = AmountParser.parse(sentence: sentence)
@@ -25,25 +28,31 @@ public struct TransactionParser: Sendable {
             return []
         }
 
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = timeZone
         let dates = DateParser.resolve(
             sentence: sentence,
             amounts: amounts,
             now: referenceTime,
-            calendar: calendar
+            calendar: configuration.calendar
         )
 
-        return amounts.enumerated().map { index, parsedAmount in
-            ParsedTransaction(
-                type: .expense,
-                amount: ParsedField(parsedAmount.value, confidence: parsedAmount.confidence),
-                categoryKey: nil,
-                datetime: dates[index],
-                wallet: nil,
-                sourceWallet: nil,
-                targetWallet: nil,
-                note: nil
+        let details = ClauseAnalyzer.analyze(
+            sentence: sentence,
+            amounts: amounts,
+            configuration: configuration,
+            now: referenceTime
+        )
+
+        return zip(amounts, zip(dates, details)).map { amount, pair in
+            let (date, detail) = pair
+            return ParsedTransaction(
+                type: detail.type,
+                amount: ParsedField(amount.value, confidence: amount.confidence),
+                categoryKey: detail.categoryKey,
+                datetime: date,
+                wallet: detail.wallet,
+                sourceWallet: detail.sourceWallet,
+                targetWallet: detail.targetWallet,
+                note: detail.note
             )
         }
     }
