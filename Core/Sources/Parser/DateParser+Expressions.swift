@@ -186,6 +186,6 @@ extension DateParser.Context {
     }
 
     private func isClauseStart(_ index: Int) -> Bool {
-        index == 0 || DateParser.isSeparator(tokens[index - 1])
+        index == 0 || ClauseSplitter.isSeparator(tokens[index - 1])
     }
 }
